@@ -1,3 +1,7 @@
+using Blog.Data;
+using Microsoft.EntityFrameworkCore;
+using System;
+
 internal class Program
 {
     private static void Main(string[] args)
@@ -6,6 +10,7 @@ internal class Program
 
         // Add services to the container.
         AddServicesToTheContainer(builder);
+        AddDbContextService(builder); // DB Context service
 
         var app = builder.Build();
 
@@ -18,6 +23,14 @@ internal class Program
     private static void AddServicesToTheContainer(WebApplicationBuilder builder)
     {
         builder.Services.AddControllersWithViews();
+    }
+
+    private static void AddDbContextService(WebApplicationBuilder builder)
+    {
+        builder.Services.AddDbContext<AppDbContext>(options =>
+        {
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+        });
     }
 
     private static void ConfigureHTTPRequest(WebApplication app)

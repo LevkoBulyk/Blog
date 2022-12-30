@@ -7,8 +7,8 @@ namespace Blog.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public IEnumerable<Article> Articles { get; set; }
-        public IEnumerable<ArticleText> ArticleTexts { get; set; }
-        public IEnumerable<ArticleMedia> ArticleMedias { get; set; }
+        public DbSet<Article> Articles { get; set; }
+        public DbSet<ArticleText> ArticleTexts { get; set; }
+        public DbSet<ArticleMedia> ArticleMedias { get; set; }
     }
 }

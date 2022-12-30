@@ -4,11 +4,6 @@ namespace Blog.Models
 {
     public class Article
     {
-        public Article(IEnumerable<ArticleItem> items)
-        {
-            Items = items;
-        }
-
         [Key]
         public int Id { get; set; }
         [Required]
