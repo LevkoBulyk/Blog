@@ -5,6 +5,6 @@ namespace Blog.Models
     public class ArticleText : ArticleItem
     {
         [Required]
-        public string text { get; set; }
+        public string Text { get; set; }
     }
 }
