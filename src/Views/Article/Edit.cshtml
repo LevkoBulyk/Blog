@@ -4,6 +4,9 @@
     ViewData["Title"] = "Edit Article";
 }
 
+<link href="~/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="~/js/froala_editor.pkgd.min.js"></script>
+
 <h1>Edit Article</h1>
 
 <form method="post" asp-action="EditMyProfile" enctype="multipart/form-data">
@@ -29,13 +32,16 @@
         <input asp-for="Abstract" class="form-control" placeholder="description" value="@Model.Abstract"/>
         <span asp-validation-for="Abstract" class="text-danger"></span>
     </div>
-    <hr />
     <div class="form-group py-2" >
         <label asp-for="Text">Abstract</label>
-        <textarea asp-for="Text" class="form-control" placeholder="description" value="@Model.Text"></textarea>
+        <textarea id="editable" asp-for="Text" class="form-control" placeholder="description" value="@Model.Text"></textarea>
+        <script>
+            var editor = new FroalaEditor("#editable");
+        </script>
         <span asp-validation-for="Text" class="text-danger"></span>
     </div>
-    <hr/>
+    <br />
+    <hr />
 
     <button type="submit" class="btn btn-primary">Save Changes</button>
 </form>
