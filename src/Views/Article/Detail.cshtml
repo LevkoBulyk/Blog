@@ -15,14 +15,7 @@
     </div>
 
     <div class="blog-post">
-        <h2 class="blog-post-title">@Model.Title</h2>
-        <hr>
-        <p class="blog-post-meta">@Model.LastEdition by <a href="#">Mark</a></p>
-        <hr />
-        <p>@Model.Abstract</p>
-        <hr />
         @Html.Raw(Model.Text)
-        <hr />
     </div>
 
     <div class="form-group float-start">

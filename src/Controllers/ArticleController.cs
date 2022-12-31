@@ -1,7 +1,6 @@
-﻿using Blog.Data;
-using Blog.IRepositories;
+﻿using Blog.IRepositories;
+using Blog.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Controllers
 {
@@ -33,6 +32,14 @@ namespace Blog.Controllers
             var article = await _articleRepo.GetArticleById(id);
 
             return View(article);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Article article)
+        {
+            article.LastEdition = DateTime.Now;
+            _articleRepo.Update(article);
+            return RedirectToAction("Index");
         }
     }
 }
