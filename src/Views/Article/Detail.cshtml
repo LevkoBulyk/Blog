@@ -5,4 +5,27 @@
     ViewData["Title"] = "Article";
 }
 
-<h1>Article</h1>
+<div class="blog-post">
+    <h2 class="blog-post-title">@Model.Title</h2>
+    <hr>
+    <p class="blog-post-meta">@Model.LastEdition by <a href="#">Mark</a></p>
+    <p>@Model.Abstract</p>
+    <hr/>
+    @foreach (var item in Model.Items)
+    {
+        <p>element</p>
+        <hr />
+        @*if (item.GetType().Equals(typeof(ArticleMedia)))
+        {
+            var element = (ArticleMedia)item;
+
+        }
+        else
+        {
+            var element = (ArticleText)item;
+
+            <p>@element.Text</p>
+        }
+        <hr/>*@
+    }
+</div>

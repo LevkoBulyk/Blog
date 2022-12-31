@@ -7,8 +7,7 @@ namespace Blog.Models
     {
         public Article()
         {
-            TextItems = new List<ArticleText>();
-            MediaItems = new List<ArticleMedia>();
+            Items = new List<ArticleItem>();
         }
 
         [Key]
@@ -18,8 +17,8 @@ namespace Blog.Models
         public string Title { get; set; }
         public string? Abstract { get; set; }
         public DateTime LastEdition { get; set; }
+        public string? ImageUrl { get; set; }
 
-        public List<ArticleText> TextItems { get; set; }
-        public List<ArticleMedia> MediaItems { get; set; }
+        public List<ArticleItem> Items { get; set; }
     }
 }

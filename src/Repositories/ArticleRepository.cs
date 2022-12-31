@@ -16,13 +16,16 @@ namespace Blog.Repositories
 
         public bool Create(Article article)
         {
-            foreach (var item in article.TextItems)
+            foreach (var item in article.Items)
             {
-                _context.ArticleTexts.Add(item);
-            }
-            foreach (var item in article.MediaItems)
-            {
-                _context.ArticleMedias.Add(item);
+                if (item.GetType().Equals(typeof(ArticleText)))
+                {
+                    _context.ArticleTexts.Add((ArticleText)item);
+                }
+                else
+                {
+                    _context.ArticleMedias.Add((ArticleMedia)item);
+                }
             }
             _context.Articles.Add(article);
             return Save();
@@ -79,7 +82,7 @@ namespace Blog.Repositories
             {
                 if (item.ArticleId == id)
                 {
-                    article.MediaItems.Add(item);
+                    article.Items.Add(item);
                 }
             }
 
@@ -87,9 +90,11 @@ namespace Blog.Repositories
             {
                 if (item.ArticleId == id)
                 {
-                    article.TextItems.Add(item);
+                    article.Items.Add(item);
                 }
             }
+
+            article.Items.OrderBy(x => x.LocationOrder);
 
             return article;
         }
@@ -103,14 +108,16 @@ namespace Blog.Repositories
         {
             _context.Articles.Update(article);
 
-            foreach (var item in article.TextItems)
+            foreach (var item in article.Items)
             {
-                _context.ArticleTexts.Update(item);
-            }
-
-            foreach (var item in article.MediaItems)
-            {
-                _context.ArticleMedias.Update(item);
+                if (item.GetType().Equals(typeof(ArticleText)))
+                {
+                    _context.ArticleTexts.Update((ArticleText)item);
+                }
+                else
+                {
+                    _context.ArticleMedias.Update((ArticleMedia)item);
+                }
             }
 
             return Save();

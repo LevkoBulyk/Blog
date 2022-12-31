@@ -20,7 +20,7 @@
                     </p>
                     <a asp-controller="Article" asp-action="Detail" asp-route-id="@item.Id" >Continue reading</a>
                 </div>
-                <img class="card-img-right flex-auto d-none d-md-block" src="@((item.MediaItems.Count() > 0) ? @item .MediaItems[0].MediaUrl : "" )" width="40%" height="40%"/>
+                <img class="card-img-right flex-auto d-none d-md-block" src="@item.ImageUrl" width="40%" height="40%"/>
             </div>
         </div>
     }
