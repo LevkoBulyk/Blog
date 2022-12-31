@@ -5,21 +5,15 @@ namespace Blog.Models
 {
     public class Article
     {
-        public Article()
-        {
-            Items = new List<ArticleItem>();
-        }
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
         [Required]
         public string Title { get; set; }
-        public string? Abstract { get; set; }
+        public string Abstract { get; set; }
+        public string Text { get; set; }
         public DateTime LastEdition { get; set; }
         public string? ImageUrl { get; set; }
 
-        [NotMapped]
-        public List<ArticleItem> Items { get; set; }
     }
 }

@@ -1,11 +1,10 @@
-﻿@using Blog.Models
-@model Article
+﻿@model Article
 
 @{
     ViewData["Title"] = "Article";
 }
 
-<div class="form-group container">
+<div class="py-5 form-group container">
     <div class="form-group float-end right">
         <a class="btn btn-outline-secondary " asp-controller="Article" asp-action="Edit" asp-route-id="@Model.Id">
             Edit
@@ -19,27 +18,14 @@
         <h2 class="blog-post-title">@Model.Title</h2>
         <hr>
         <p class="blog-post-meta">@Model.LastEdition by <a href="#">Mark</a></p>
+        <hr />
         <p>@Model.Abstract</p>
-        <hr/>
-        @foreach (var item in Model.Items)
-        {
-            @if (item.GetType().Equals(typeof(ArticleMedia)))
-            {
-                var element = (ArticleMedia)item;
-                <h3>@element.Title</h3>
-                <img src="@element.MediaUrl" width="100%" height="100%" />
-            }
-            else
-            {
-                var element = (ArticleText)item;
-
-                <p>@element.Text</p>
-            }
-            <hr/>
-        }
+        <hr />
+        @Html.Raw(Model.Text)
+        <hr />
     </div>
 
-    <div class="form-group float-end right">
+    <div class="form-group float-start">
         <a class="btn btn-outline-secondary " asp-controller="Comment" asp-action="Add" asp-route-id="@Model.Id">
             Add Comment
         </a>

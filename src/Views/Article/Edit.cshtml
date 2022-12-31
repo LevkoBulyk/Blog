@@ -1,4 +1,41 @@
-﻿@{
+﻿@model Article
+
+@{
     ViewData["Title"] = "Edit Article";
 }
+
 <h1>Edit Article</h1>
+
+<form method="post" asp-action="EditMyProfile" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" value="@Model.Id"/>
+    <div class="form-group py-2">
+        <label asp-for="Title">Title</label>
+        <input asp-for="Title" class="form-control blog-post-title" placeholder="title" value ="@Model.Title"/>
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group py-2">
+        <label asp-for="LastEdition">Time of last edition</label>
+        <div class="row">
+            <div class="col-2">
+                <input class="disabled form-control blog-post-meta" placeholder="description" value="@DateTime.Now" />
+            </div>
+            <div class="col-10">
+                <p class="blog-post-meta"> by <a href="#">Mark</a></p>
+            </div>
+        </div>
+    </div>
+    <div class="form-group py-2" >
+        <label asp-for="Abstract">Abstract</label>
+        <input asp-for="Abstract" class="form-control" placeholder="description" value="@Model.Abstract"/>
+        <span asp-validation-for="Abstract" class="text-danger"></span>
+    </div>
+    <hr />
+    <div class="form-group py-2" >
+        <label asp-for="Text">Abstract</label>
+        <textarea asp-for="Text" class="form-control" placeholder="description" value="@Model.Text"></textarea>
+        <span asp-validation-for="Text" class="text-danger"></span>
+    </div>
+    <hr/>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
