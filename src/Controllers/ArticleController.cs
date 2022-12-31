@@ -27,5 +27,12 @@ namespace Blog.Controllers
 
             return View(article);
         }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var article = await _articleRepo.GetArticleById(id);
+
+            return View(article);
+        }
     }
 }

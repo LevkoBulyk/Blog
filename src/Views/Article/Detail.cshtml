@@ -5,26 +5,43 @@
     ViewData["Title"] = "Article";
 }
 
-<div class="blog-post">
-    <h2 class="blog-post-title">@Model.Title</h2>
-    <hr>
-    <p class="blog-post-meta">@Model.LastEdition by <a href="#">Mark</a></p>
-    <p>@Model.Abstract</p>
-    <hr/>
-    @foreach (var item in Model.Items)
-    {
-        @if (item.GetType().Equals(typeof(ArticleMedia)))
-        {
-            var element = (ArticleMedia)item;
-            <h3>@element.Title</h3>
-            <img src="@element.MediaUrl" width="100%" height="100%" />
-        }
-        else
-        {
-            var element = (ArticleText)item;
+<div class="form-group container">
+    <div class="form-group float-end right">
+        <a class="btn btn-outline-secondary " asp-controller="Article" asp-action="Edit" asp-route-id="@Model.Id">
+            Edit
+        </a>
+        <a class="btn btn-outline-danger" asp-controller="Article" asp-action="Delete" asp-route-id="@Model.Id">
+            Delete
+        </a>
+    </div>
 
-            <p>@element.Text</p>
-        }
+    <div class="blog-post">
+        <h2 class="blog-post-title">@Model.Title</h2>
+        <hr>
+        <p class="blog-post-meta">@Model.LastEdition by <a href="#">Mark</a></p>
+        <p>@Model.Abstract</p>
         <hr/>
-    }
+        @foreach (var item in Model.Items)
+        {
+            @if (item.GetType().Equals(typeof(ArticleMedia)))
+            {
+                var element = (ArticleMedia)item;
+                <h3>@element.Title</h3>
+                <img src="@element.MediaUrl" width="100%" height="100%" />
+            }
+            else
+            {
+                var element = (ArticleText)item;
+
+                <p>@element.Text</p>
+            }
+            <hr/>
+        }
+    </div>
+
+    <div class="form-group float-end right">
+        <a class="btn btn-outline-secondary " asp-controller="Comment" asp-action="Add" asp-route-id="@Model.Id">
+            Add Comment
+        </a>
+    </div>
 </div>
