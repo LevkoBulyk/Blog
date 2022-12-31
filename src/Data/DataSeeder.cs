@@ -1,6 +1,4 @@
 ﻿using Blog.Models;
-using Microsoft.AspNetCore.Builder;
-using System;
 
 namespace Blog.Data
 {
@@ -13,14 +11,14 @@ namespace Blog.Data
                 Id = 1,
                 Title = "Test",
                 Abstract = "This is the abstract to the test article",
-                LastEdition = DateTime.Now
+                LastEdition = DateTime.Now.AddDays(-1)
             },
             new Article()
             {
                 Id = 2,
                 Title = "Test 2",
                 Abstract = "As can be seen from Fig. 43a, different parts of the same sample show different luminescence, and the difference appears mainly in the 540 – 542 nm region, which is not the region of the phonon replicas. The sample is rather not homogenous, and it may have an inhomogeneous concentration of the defects and even may have inclusions of other phases. As well, the already mentioned domain structure may play a significant role in these modifications. These factors lead to the increase of the luminescence above 540 nm.",
-                LastEdition = DateTime.Now
+                LastEdition = DateTime.Now.AddMonths(-1)
             },
             new Article()
             {

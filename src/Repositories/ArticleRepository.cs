@@ -71,7 +71,7 @@ namespace Blog.Repositories
 
         public async Task<IEnumerable<Article>> GetAllArticlesSorted()
         {
-            return (await GetAllArticles()).OrderBy(a => a.LastEdition).ToList();
+            return (await GetAllArticles()).OrderByDescending(a => a.LastEdition).ToList();
         }
 
         public async Task<Article> GetArticleById(int id)
@@ -94,7 +94,7 @@ namespace Blog.Repositories
                 }
             }
 
-            article.Items.OrderBy(x => x.LocationOrder);
+            article.Items = article.Items.OrderBy(x => x.LocationOrder).ToList();
 
             return article;
         }

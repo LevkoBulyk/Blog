@@ -19,6 +19,7 @@ namespace Blog.Models
         public DateTime LastEdition { get; set; }
         public string? ImageUrl { get; set; }
 
+        [NotMapped]
         public List<ArticleItem> Items { get; set; }
     }
 }
