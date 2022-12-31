@@ -41,11 +41,11 @@ namespace Blog.Data
         {
             new AppUser()
             {
-                Name = "Olenka"
+                UserName = "Olenka"
             },
             new AppUser()
             {
-                Name = "Test"
+                UserName = "Test"
             }
         };
 
@@ -70,7 +70,7 @@ namespace Blog.Data
             }
         }
 
-        public static async Task SeedUsersAndRolesAsync(IApplicationBuilder applicationBuilder)
+        public static async Task SeedRolesAsync(IApplicationBuilder applicationBuilder)
         {
             using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
             {
@@ -81,7 +81,13 @@ namespace Blog.Data
                     await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
                 if (!await roleManager.RoleExistsAsync(UserRoles.User))
                     await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
+            }
+        }
 
+        public static async Task SeedUsersAsync(IApplicationBuilder applicationBuilder)
+        {
+            using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
+            {
                 //Users
                 var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
                 string adminUserEmail = "levivanbulyk@gmail.com";
@@ -91,11 +97,11 @@ namespace Blog.Data
                 {
                     var newAdminUser = new AppUser()
                     {
-                        Name = "Olenka",
+                        UserName = "Olenka",
                         Email = adminUserEmail,
                         EmailConfirmed = true,
                     };
-                    await userManager.CreateAsync(newAdminUser, "123qwe");
+                    await userManager.CreateAsync(newAdminUser, "Oprysko0!");
                     await userManager.AddToRoleAsync(newAdminUser, UserRoles.Admin);
                 }
 
@@ -106,11 +112,11 @@ namespace Blog.Data
                 {
                     var newAppUser = new AppUser()
                     {
-                        Name = "Lev",
+                        UserName = "Lev",
                         Email = appUserEmail,
                         EmailConfirmed = true,
                     };
-                    await userManager.CreateAsync(newAppUser, "123qwe");
+                    await userManager.CreateAsync(newAppUser, "Oprysko0!");
                     await userManager.AddToRoleAsync(newAppUser, UserRoles.User);
                 }
             }

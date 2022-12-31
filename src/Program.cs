@@ -4,8 +4,10 @@ using Blog.IRepositories;
 using Blog.Models;
 using Blog.Repositories;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 
 internal class Program
@@ -25,7 +27,8 @@ internal class Program
         // Seed data if args contain "seeddata"
         if (args.Count() == 1 && args[0].ToLower().Equals("seeddata"))
         {
-            DataSeeder.SeedDataToDB(app);
+            DataSeeder.SeedRolesAsync(app);
+            DataSeeder.SeedUsersAsync(app);
         }
 
         // Configure the HTTP request pipeline.
@@ -63,6 +66,7 @@ internal class Program
     private static void AddRepositories(WebApplicationBuilder builder)
     {
         builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
+        builder.Services.AddScoped<IUserRepository, UserRepository>();
     }
 
     private static void ConfigureHTTPRequest(WebApplication app)
