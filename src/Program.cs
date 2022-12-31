@@ -14,6 +14,12 @@ internal class Program
 
         var app = builder.Build();
 
+        // Seed data if args contain "seeddata"
+        if (args.Count() == 1 && args[0].ToLower().Equals("seeddata"))
+        {
+            DataSeeder.SeedDataToDB(app);
+        }
+
         // Configure the HTTP request pipeline.
         ConfigureHTTPRequest(app);
 

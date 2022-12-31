@@ -6,6 +6,7 @@ namespace Blog.Models
     public class ArticleItem
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
         [Required]
         public int LocationOrder { get; set; }
