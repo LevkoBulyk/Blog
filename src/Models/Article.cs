@@ -15,5 +15,8 @@ namespace Blog.Models
         public DateTime LastEdition { get; set; }
         public string? ImageUrl { get; set; }
 
+        [ForeignKey("AppUser")]
+        public string AuthorId { get; set; }
+        public AppUser? Author { get; set; }
     }
 }

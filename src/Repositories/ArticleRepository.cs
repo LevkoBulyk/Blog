@@ -39,7 +39,7 @@ namespace Blog.Repositories
 
         public async Task<Article> GetArticleById(int id)
         {
-            return await _context.Articles.FirstAsync(a => a.Id == id);
+            return await _context.Articles.Include(a => a.Author).FirstAsync(a => a.Id == id);
         }
 
         public bool Save()

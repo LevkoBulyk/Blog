@@ -1,6 +1,10 @@
 using Blog.Data;
+using Blog.Data.Enum;
 using Blog.IRepositories;
+using Blog.Models;
 using Blog.Repositories;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -12,8 +16,9 @@ internal class Program
 
         // Add services to the container.
         AddServicesToTheContainer(builder);
-        AddDbContextService(builder);       //  DB Context service
-        AddRepositories(builder);           //  Adding Repositories 
+        AddDbContextService(builder);           //  DB Context service
+        AddRepositories(builder);               //  Adding Repositories
+        AddIdentityAndAuthentication(builder);  //  Adding Identity Services to make Migration with User identity
 
         var app = builder.Build();
 
@@ -40,6 +45,19 @@ internal class Program
         {
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
         });
+    }
+
+    private static void AddIdentityAndAuthentication(WebApplicationBuilder builder)
+    {
+        // Add Identity Service to use migration and User Entoityt in the DB
+        builder.Services.AddIdentity<AppUser, IdentityRole>()
+               .AddEntityFrameworkStores<AppDbContext>();
+
+        // Add Cookies Service to make the App remember logged person
+        builder.Services.AddMemoryCache();
+        builder.Services.AddSession();
+        builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+               .AddCookie();
     }
 
     private static void AddRepositories(WebApplicationBuilder builder)

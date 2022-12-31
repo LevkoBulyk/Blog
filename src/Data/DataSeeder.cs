@@ -1,4 +1,7 @@
-﻿using Blog.Models;
+﻿using Blog.Data.Enum;
+using Blog.Models;
+using Microsoft.AspNetCore.Identity;
+using System.Net;
 
 namespace Blog.Data
 {
@@ -13,6 +16,8 @@ namespace Blog.Data
                 Abstract = "This is the abstract to the test article",
                 Text = "Here there will be the text of the article with images and videos",
                 LastEdition = DateTime.Now.AddDays(-1),
+                ImageUrl = "https://www.eatthis.com/wp-content/uploads/sites/4/2020/05/running.jpg?quality=82&strip=1&resize=640%2C360",
+
             },
             new Article()
             {
@@ -32,6 +37,18 @@ namespace Blog.Data
             }
         };
 
+        private static readonly List<AppUser> appUsers = new List<AppUser>()
+        {
+            new AppUser()
+            {
+                Name = "Olenka"
+            },
+            new AppUser()
+            {
+                Name = "Test"
+            }
+        };
+
         public static void SeedDataToDB(IApplicationBuilder app)
         {
             using (var serviceScope = app.ApplicationServices.CreateScope())
@@ -44,7 +61,58 @@ namespace Blog.Data
                     context.Articles.AddRange(articles);
                 }
 
+                if (!context.AppUsers.Any())
+                {
+                    context.Users.AddRange(appUsers);
+                }
+
                 context.SaveChanges();
+            }
+        }
+
+        public static async Task SeedUsersAndRolesAsync(IApplicationBuilder applicationBuilder)
+        {
+            using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
+            {
+                //Roles
+                var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+                if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
+                    await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+                if (!await roleManager.RoleExistsAsync(UserRoles.User))
+                    await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
+
+                //Users
+                var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+                string adminUserEmail = "levivanbulyk@gmail.com";
+
+                var adminUser = await userManager.FindByEmailAsync(adminUserEmail);
+                if (adminUser == null)
+                {
+                    var newAdminUser = new AppUser()
+                    {
+                        Name = "Olenka",
+                        Email = adminUserEmail,
+                        EmailConfirmed = true,
+                    };
+                    await userManager.CreateAsync(newAdminUser, "123qwe");
+                    await userManager.AddToRoleAsync(newAdminUser, UserRoles.Admin);
+                }
+
+                string appUserEmail = "bulyk@ifpan.edu.pl";
+
+                var appUser = await userManager.FindByEmailAsync(appUserEmail);
+                if (appUser == null)
+                {
+                    var newAppUser = new AppUser()
+                    {
+                        Name = "Lev",
+                        Email = appUserEmail,
+                        EmailConfirmed = true,
+                    };
+                    await userManager.CreateAsync(newAppUser, "123qwe");
+                    await userManager.AddToRoleAsync(newAppUser, UserRoles.User);
+                }
             }
         }
     }
