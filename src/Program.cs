@@ -1,4 +1,6 @@
 using Blog.Data;
+using Blog.IRepositories;
+using Blog.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -10,7 +12,8 @@ internal class Program
 
         // Add services to the container.
         AddServicesToTheContainer(builder);
-        AddDbContextService(builder); // DB Context service
+        AddDbContextService(builder);       //  DB Context service
+        AddRepositories(builder);           //  Adding Repositories 
 
         var app = builder.Build();
 
@@ -37,6 +40,11 @@ internal class Program
         {
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
         });
+    }
+
+    private static void AddRepositories(WebApplicationBuilder builder)
+    {
+        builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
     }
 
     private static void ConfigureHTTPRequest(WebApplication app)

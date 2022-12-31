@@ -5,6 +5,12 @@ namespace Blog.Models
 {
     public class Article
     {
+        public Article()
+        {
+            TextItems = new List<ArticleText>();
+            MediaItems = new List<ArticleMedia>();
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
@@ -13,6 +19,7 @@ namespace Blog.Models
         public string? Abstract { get; set; }
         public DateTime LastEdition { get; set; }
 
-        IEnumerable<ArticleItem> Items { get; set; }
+        public List<ArticleText> TextItems { get; set; }
+        public List<ArticleMedia> MediaItems { get; set; }
     }
 }
