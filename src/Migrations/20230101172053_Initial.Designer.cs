@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Blog.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221231224813_Initial")]
+    [Migration("20230101172053_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -96,7 +96,10 @@ namespace Blog.Migrations
             modelBuilder.Entity("Blog.Models.Article", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Abstract")
                         .IsRequired()

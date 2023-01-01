@@ -60,6 +60,12 @@ namespace Blog.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Article article)
         {
+            if (article.Author == null)
+            {
+                var user = await _userRepository.GetUserById(article.AuthorId);
+                article.Author = user;
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(article);
