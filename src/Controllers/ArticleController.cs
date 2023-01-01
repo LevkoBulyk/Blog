@@ -76,5 +76,11 @@ namespace Blog.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _articleRepo.Delete(id);
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

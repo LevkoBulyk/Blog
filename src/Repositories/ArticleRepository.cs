@@ -22,8 +22,11 @@ namespace Blog.Repositories
 
         public async Task<bool> Delete(int id)
         {
-            var article = await _context.Articles.AsNoTracking().FirstAsync(a => a.Id == id);
-            _context.Articles.Remove(article);
+            var article = await _context.Articles.FirstAsync(a => a.Id == id);
+            if (article != null)
+            {
+                _context.Articles.Remove(article);
+            }
             return Save();
         }
 
@@ -34,7 +37,7 @@ namespace Blog.Repositories
 
         public async Task<IEnumerable<Article>> GetAllArticlesSorted()
         {
-            return _context.Articles.OrderByDescending(a => a.LastEdition).ToList();
+            return _context.Articles.Include(a => a.Author).OrderByDescending(a => a.LastEdition).ToList();
         }
 
         public async Task<Article> GetArticleById(int id)
