@@ -26,8 +26,8 @@ namespace Blog.Controllers
             return View(new UserRegistration());
         }
 
-       [HttpPost]
-       public async Task<IActionResult> Register(UserRegistration userRegistration)
+        [HttpPost]
+        public async Task<IActionResult> Register(UserRegistration userRegistration)
         {
             if (!ModelState.IsValid)
             {
@@ -60,6 +60,43 @@ namespace Blog.Controllers
 
             TempData["Error"] = newUserResponce.Errors.First().Description;
             return View(userRegistration);
+        }
+
+        public IActionResult SignUp()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SignUp(UserLoggingIn userLoggingIn)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(userLoggingIn);
+            }
+
+            var user = await _userManager.FindByEmailAsync(userLoggingIn.Email);
+            if (user == null)
+            {
+                TempData["Error"] = "No user is registered with given email. Please, check the email";
+                return View(userLoggingIn);
+            }
+
+            var passwordCheck = await _userManager.CheckPasswordAsync(user, userLoggingIn.Password);
+            if (!passwordCheck)
+            {
+                TempData["Error"] = "Wrong password. Please, try again";
+                return View(userLoggingIn);
+            }
+
+            var res = await _signInManager.PasswordSignInAsync(user, userLoggingIn.Password, false, false);
+            if (!res.Succeeded)
+            {
+                TempData["Error"] = "Signing in failed. Please, check your input and try again";
+                return View(userLoggingIn);
+            }
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
