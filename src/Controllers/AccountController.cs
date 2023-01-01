@@ -1,5 +1,4 @@
 ﻿using Blog.Data.Enum;
-using Blog.IRepositories;
 using Blog.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,15 +8,12 @@ namespace Blog.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IUserRepository _userRepository;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
 
-        public AccountController(IUserRepository userRepository,
-                                 SignInManager<AppUser> signInManager,
+        public AccountController(SignInManager<AppUser> signInManager,
                                  UserManager<AppUser> userManager)
         {
-            _userRepository = userRepository;
             _signInManager = signInManager;
             _userManager = userManager;
         }

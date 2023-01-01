@@ -7,9 +7,9 @@
 <link href="~/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="~/js/froala_editor.pkgd.min.js"></script>
 
-<h1>Edit Article</h1>
+<h1>New Article</h1>
 
-<form method="post" asp-action="Edit" enctype="multipart/form-data">
+<form method="post" asp-action="Create" enctype="multipart/form-data">
     <input type="hidden" asp-for="Id" value="@Model.Id"/>
     <div class="form-group py-2">
         <label asp-for="Title">Title</label>
@@ -17,24 +17,14 @@
         <span asp-validation-for="Title" class="text-danger"></span>
     </div>
     <div class="form-group py-2">
-        <div class="row">
-            <input type="hidden" asp-for="AuthorId" value="@Model.AuthorId" />
-            <div class="col-6">
-                <label >Last time edited:</label>
-                <p class="blog-post-meta">@Model.LastEdition by 
-                    <a asp-controller="Account" asp-action="Detail" asp-route-id="@Model.AuthorId"> 
-                        @Model.Author.UserName
-                    </a>
-                </p>
-            </div>
-            <div class="col-6">
-                <label >Edition will be replaced by:</label>
-                <p class="blog-post-meta">@DateTime.Now by 
-                    <a asp-controller="Account" asp-action="Detail" asp-route-id="@Model.AuthorId"> 
-                        @User.Identity.Name
-                    </a>
-                </p>
-            </div>
+        <input type="hidden" asp-for="AuthorId" value="@Model.AuthorId" />
+        <div class="col-6">
+            <label >Creation statement:</label>
+            <p class="blog-post-meta">@DateTime.Now by 
+                <a asp-controller="Account" asp-action="Detail" asp-route-id="@Model.AuthorId"> 
+                    @Model.Author.UserName
+                </a>
+            </p>
         </div>
     </div>
     <div class="form-group py-2" >
@@ -56,5 +46,5 @@
         <span asp-validation-for="Text" class="text-danger"></span>
     </div>
     <a asp-controller="Home" asp-action="Index" class="btn btn-warning">Cancel</a>
-    <button type="submit" class="btn btn-primary  float-end right">Save Changes</button>
+    <button type="submit" class="btn btn-primary float-end right">Save Changes</button>
 </form>

@@ -6,7 +6,6 @@ namespace Blog.Models
     public class Article
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
         [Required]
         public string Title { get; set; }

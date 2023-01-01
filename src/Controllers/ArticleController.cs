@@ -1,5 +1,6 @@
 ﻿using Blog.IRepositories;
 using Blog.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.Controllers
@@ -7,17 +8,16 @@ namespace Blog.Controllers
     public class ArticleController : Controller
     {
         private readonly IArticleRepository _articleRepo;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly IUserRepository _userRepository;
 
-        public ArticleController(IArticleRepository articleRepo)
+        public ArticleController(IArticleRepository articleRepo,
+                                 UserManager<AppUser> userManager,
+                                 IUserRepository userRepository)
         {
             _articleRepo = articleRepo;
-        }
-
-        public async Task<IActionResult> Index()
-        {
-            var articles = await _articleRepo.GetAllArticlesSorted();
-
-            return View(articles);
+            _userManager = userManager;
+            _userRepository = userRepository;
         }
 
         public async Task<IActionResult> Detail(int id)
@@ -39,7 +39,36 @@ namespace Blog.Controllers
         {
             article.LastEdition = DateTime.Now;
             _articleRepo.Update(article);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> Create()
+        {
+            var userId = _userManager.GetUserId(User);
+
+            var user = await _userRepository.GetUserById(userId);
+
+            var article = new Article()
+            {
+                AuthorId = userId,
+                Author = user
+            };
+
+            return View(article);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Article article)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(article);
+            }
+
+            article.LastEdition = DateTime.Now;
+            _articleRepo.Create(article);
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

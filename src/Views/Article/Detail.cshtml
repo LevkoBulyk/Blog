@@ -5,22 +5,29 @@
 }
 
 <div class="py-5 form-group container">
-    <div class="form-group float-end right">
-        <a class="btn btn-outline-secondary " asp-controller="Article" asp-action="Edit" asp-route-id="@Model.Id">
-            Edit
-        </a>
-        <a class="btn btn-outline-danger" asp-controller="Article" asp-action="Delete" asp-route-id="@Model.Id">
-            Delete
-        </a>
-    </div>
 
     <div class="blog-post">
         @Html.Raw(Model.Text)
+        <p class="blog-post-meta">Time of the last edition: @Model.LastEdition;</p>
+        <p class="blog-post-meta">Author of the article:
+            <a asp-controller="Account" asp-action="Detail" asp-route-id="@Model.AuthorId">@Model.Author.UserName</a>
+        </p>
     </div>
 
     <div class="form-group float-start">
-        <a class="btn btn-outline-secondary " asp-controller="Comment" asp-action="Add" asp-route-id="@Model.Id">
+        <a class="btn btn-outline-primary" asp-controller="Comment" asp-action="Add" asp-route-id="@Model.Id">
             Add Comment
         </a>
     </div>
+    @if (User.Identity.Name != null && User.Identity.Name.Equals(Model.Author.UserName))
+    {
+        <div class="form-group float-end right">
+            <a class="btn btn-outline-secondary " asp-controller="Article" asp-action="Edit" asp-route-id="@Model.Id">
+                Edit
+            </a>
+            <a class="btn btn-outline-danger" asp-controller="Article" asp-action="Delete" asp-route-id="@Model.Id">
+                Delete
+            </a>
+        </div>
+    }
 </div>
