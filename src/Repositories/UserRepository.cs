@@ -7,10 +7,13 @@ namespace Blog.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly AppDbContext _context;
+        private readonly IConfiguration _configuration;
 
-        public UserRepository(AppDbContext context)
+        public UserRepository(AppDbContext context,
+                              IConfiguration configuration)
         {
-            this._context = context;
+            _context = context;
+            _configuration = configuration;
         }
 
         public bool Add(AppUser user)
@@ -33,7 +36,12 @@ namespace Blog.Repositories
 
         public async Task<AppUser> GetUserById(string id)
         {
-            return _context.Users.FirstOrDefault(u => u.Id.Equals(id));
+            var user = _context.Users.FirstOrDefault(u => u.Id.Equals(id));
+            if (user != null && user.PhotoUrl == null)
+            {
+                user.PhotoUrl = _configuration.GetValue<string>("DefaultUserPhoto");
+            }
+            return user;
         }
 
         public bool Save()

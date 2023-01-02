@@ -1,0 +1,26 @@
+﻿@model AppUser
+
+@{
+    ViewData["Title"] = Model.UserName;
+}
+
+<div class="container bootdey">
+    <div class="col-md-12">
+        <section class="panel">
+            <div class="row panel-body">
+                <div class="col-md-4">
+                    <img src="@Model.PhotoUrl" style="max-width:inherit" >
+                </div>
+                <div class="col-md-8">
+                    <h4 class="pro-d-title">@Model.UserName</h4>
+                    @if (User.Identity.Name != null && User.Identity.Name.Equals(Model.UserName))
+                    {
+                        <a class="btn btn-outline-secondary " asp-controller="Account" asp-action="Edit" asp-route-id="@Model.Id">
+                            Edit
+                        </a>
+                    }
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

@@ -1,4 +1,6 @@
 ﻿using Blog.Data.Enum;
+using Blog.HelpingModels.ViewModels;
+using Blog.IRepositories;
 using Blog.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,12 +12,15 @@ namespace Blog.Controllers
     {
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IUserRepository _userRepository;
 
         public AccountController(SignInManager<AppUser> signInManager,
-                                 UserManager<AppUser> userManager)
+                                 UserManager<AppUser> userManager,
+                                 IUserRepository userRepository)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _userRepository = userRepository;
         }
         public IActionResult Register()
         {
@@ -99,6 +104,22 @@ namespace Blog.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> Detail(string id)
+        {
+            var user = await _userRepository.GetUserById(id);
+
+            if (user == null)
+            {
+                var err = new ErrorViewModel()
+                {
+                    RequestId = $"User with id: {id} not found in DB"
+                };
+                return View("Error", err);
+            }
+
+            return View(user);
         }
     }
 }
