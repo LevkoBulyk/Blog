@@ -40,6 +40,7 @@ namespace Blog.Repositories
             if (user != null && user.PhotoUrl == null)
             {
                 user.PhotoUrl = _configuration.GetValue<string>("DefaultUserPhoto");
+                //Save();
             }
             return user;
         }

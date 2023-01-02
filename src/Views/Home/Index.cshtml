@@ -18,9 +18,7 @@
                 </h3>
                 <div class="mb-1 text-muted">
                     by 
-                    <a asp-controller="Account" asp-action="Detail" asp-route-id="@item.AuthorId">
-                        @item.Author.UserName
-                    </a>, from @item.LastEdition
+                    <a asp-controller="Account" asp-action="Detail" asp-route-id="@item.AuthorId">@item.Author.UserName</a>, from @item.LastEdition
                 </div>
                 <p class="card-text mb-auto">
                 @item.Abstract

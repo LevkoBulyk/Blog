@@ -4,6 +4,7 @@ using Blog.IRepositories;
 using Blog.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Blog.Controllers
@@ -22,6 +23,7 @@ namespace Blog.Controllers
             _userManager = userManager;
             _userRepository = userRepository;
         }
+
         public IActionResult Register()
         {
             return View(new UserRegistration());
@@ -120,6 +122,43 @@ namespace Blog.Controllers
             }
 
             return View(user);
+        }
+
+        public async Task<IActionResult> Edit(string id)
+        {
+            var user = await _userRepository.GetUserById(id);
+
+            if (user == null)
+            {
+                var err = new ErrorViewModel()
+                {
+                    RequestId = $"User with id: {id} not found in DB"
+                };
+                return View("Error", err);
+            }
+
+            return View(user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(AppUser appUser)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(appUser);
+            }
+
+            var cur = await _userManager.FindByIdAsync(appUser.Id);
+            if (!cur.UserName.Equals(appUser.UserName))
+            {
+                cur.UserName = appUser.UserName;
+            }
+                cur.PhotoUrl = appUser.PhotoUrl;
+
+            await _userManager.UpdateAsync(cur);
+            await _signInManager.RefreshSignInAsync(cur);
+            
+            return RedirectToAction("Detail", new { id = appUser.Id });
         }
     }
 }
