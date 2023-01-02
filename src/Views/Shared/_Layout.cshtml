@@ -51,7 +51,7 @@
                         else
                         {
                             <li class="nav-item">
-                                <p>User: @User.Identity.Name</p>
+                                <p>User: <a asp-controller="Account" asp-action="SignedDetail" >@User.Identity.Name</a></p>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="SignOut">

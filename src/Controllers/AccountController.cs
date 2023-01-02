@@ -160,5 +160,11 @@ namespace Blog.Controllers
             
             return RedirectToAction("Detail", new { id = appUser.Id });
         }
+
+        public async Task<IActionResult> SignedDetail()
+        {
+            var id = _userManager.GetUserId(User);
+            return RedirectToAction("Detail", new { id });
+        }
     }
 }
